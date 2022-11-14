@@ -9,4 +9,4 @@ Test to obfuscate https://github.com/jpillora/chisel
 `env GOOS=windows GOARCH=amd64 ~/go/bin/garble build .`
 
 
-env GOOS=linux GOARCH=amd64 ~/go/bin/garble build .`
+`env GOOS=linux GOARCH=amd64 ~/go/bin/garble build .`
