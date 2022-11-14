@@ -10,7 +10,7 @@ import (
 	"os/user"
 	"path/filepath"
 
-	"share/settings"
+	"github.com/jpillora/chisel/share/settings"
 	"golang.org/x/crypto/acme/autocert"
 )
 
@@ -79,7 +79,7 @@ func (s *Server) tlsLetsEncrypt(domains []string) *tls.Config {
 				h = u.HomeDir
 			}
 		}
-		c = filepath.Join(h, ".cache", "ssh2http")
+		c = filepath.Join(h, ".cache", "sshOVERhttp")
 	}
 	if c != "-" {
 		s.Infof("LetsEncrypt cache directory %s", c)

@@ -3,27 +3,28 @@ BUILD=$(shell git rev-parse HEAD)
 DIRBASE=./build
 DIR=${DIRBASE}/${VERSION}/${BUILD}/bin
 
-LDFLAGS=-ldflags "-s -w ${XBUILD} -buildid=${BUILD} -X share.BuildVersion=${VERSION}"
+LDFLAGS=-ldflags "-s -w ${XBUILD} -buildid=${BUILD} -X github.com/jpillora/chisel/share.BuildVersion=${VERSION}"
 
 GOFILES=`go list ./...`
 GOFILESNOTEST=`go list ./... | grep -v test`
 
+# Make Directory to store executables
 $(shell mkdir -p ${DIR})
 
 all:
 	@goreleaser build --skip-validate --single-target --config .github/goreleaser.yml
 
 freebsd: lint
-	env CGO_ENABLED=0 GOOS=freebsd GOARCH=amd64 go build -trimpath ${LDFLAGS} ${GCFLAGS} ${ASMFLAGS} -o ${DIR}/ssh2http-freebsd_amd64 .
+	env CGO_ENABLED=0 GOOS=freebsd GOARCH=amd64 go build -trimpath ${LDFLAGS} ${GCFLAGS} ${ASMFLAGS} -o ${DIR}/sshOVERhttp-freebsd_amd64 .
 
 linux: lint
-	env CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -trimpath ${LDFLAGS} ${GCFLAGS} ${ASMFLAGS} -o ${DIR}/ssh2http-linux_amd64 .
+	env CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -trimpath ${LDFLAGS} ${GCFLAGS} ${ASMFLAGS} -o ${DIR}/sshOVERhttp-linux_amd64 .
 
 windows: lint
-	env CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -trimpath ${LDFLAGS} ${GCFLAGS} ${ASMFLAGS} -o ${DIR}/ssh2http-windows_amd64 .
+	env CGO_ENABLED=1 GOOS=windows GOARCH=amd64 go build -trimpath ${LDFLAGS} ${GCFLAGS} ${ASMFLAGS} -o ${DIR}/sshOVERhttp-windows_amd64 .
 
 darwin:
-	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -trimpath ${LDFLAGS} ${GCFLAGS} ${ASMFLAGS} -o ${DIR}/ssh2http-darwin_amd64 .
+	env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -trimpath ${LDFLAGS} ${GCFLAGS} ${ASMFLAGS} -o ${DIR}/sshOVERhttp-darwin_amd64 .
 
 docker:
 	@docker build .

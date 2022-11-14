@@ -12,23 +12,23 @@ import (
 	"strings"
 	"time"
 
-	chclient "client"
-	chserver "server"
-	chshare "share"
-	"share/cos"
+	chclient "github.com/jpillora/chisel/client"
+	chserver "github.com/jpillora/chisel/server"
+	chshare "github.com/jpillora/chisel/share"
+	"github.com/jpillora/chisel/share/cos"
 )
 
 var help = `
-  Usage: ssh2http [command] [--help]
+  Usage: sshOVERhttp [command] [--help]
 
   Version: ` + chshare.BuildVersion + ` (` + runtime.Version() + `)
 
   Commands:
-    server - runs ssh2http in server mode
-    client - runs ssh2http in client mode
+    server - runs sshOVERhttp in server mode
+    client - runs sshOVERhttp in client mode
 
   Read more:
-    https://github.com/jpillora/ssh2http
+    https://github.com/jpillora/sshOVERhttp
 
 `
 
@@ -73,7 +73,7 @@ var commonHelp = `
     --help, This help text
 
   Signals:
-    The ssh2http process is listening for:
+    The sshOVERhttp process is listening for:
       a SIGUSR2 to print process stats, and
       a SIGHUP to short-circuit the client reconnect timer
 
@@ -81,19 +81,19 @@ var commonHelp = `
     ` + chshare.BuildVersion + ` (` + runtime.Version() + `)
 
   Read more:
-    https://github.com/jpillora/ssh2http
+    https://github.com/jpillora/sshOVERhttp
 
 `
 
 func generatePidFile() {
 	pid := []byte(strconv.Itoa(os.Getpid()))
-	if err := ioutil.WriteFile("ssh2http.pid", pid, 0644); err != nil {
+	if err := ioutil.WriteFile("sshOVERhttp.pid", pid, 0644); err != nil {
 		log.Fatal(err)
 	}
 }
 
 var serverHelp = `
-  Usage: ssh2http server [options]
+  Usage: sshOVERhttp server [options]
 
   Options:
 
@@ -106,7 +106,7 @@ var serverHelp = `
     --key, An optional string to seed the generation of a ECDSA public
     and private key pair. All communications will be secured using this
     key pair. Share the subsequent fingerprint with clients to enable detection
-    of man-in-the-middle attacks (defaults to the ssh2http_KEY environment
+    of man-in-the-middle attacks (defaults to the sshOVERhttp_KEY environment
     variable, otherwise a new key is generate each run).
 
     --authfile, An optional path to a users.json file. This file should
@@ -133,11 +133,11 @@ var serverHelp = `
     to '25s' (set to 0s to disable).
 
     --backend, Specifies another HTTP server to proxy requests to when
-    ssh2http receives a normal HTTP request. Useful for hiding ssh2http in
+    sshOVERhttp receives a normal HTTP request. Useful for hiding sshOVERhttp in
     plain sight.
 
     --socks5, Allow clients to access the internal SOCKS5 proxy. See
-    ssh2http client --help for more information.
+    sshOVERhttp client --help for more information.
 
     --reverse, Allow clients to specify reverse port forwarding remotes
     in addition to normal remotes.
@@ -151,12 +151,12 @@ var serverHelp = `
     and you cannot set --tls-domain.
 
     --tls-domain, Enables TLS and automatically acquires a TLS key and
-    certificate using LetsEncrypt. Setting --tls-domain requires port 443.
+    certificate using LetsEncypt. Setting --tls-domain requires port 443.
     You may specify multiple --tls-domain flags to serve multiple domains.
-    The resulting files are cached in the "$HOME/.cache/ssh2http" directory.
-    You can modify this path by setting the ssh2http_LE_CACHE variable,
+    The resulting files are cached in the "$HOME/.cache/sshOVERhttp" directory.
+    You can modify this path by setting the sshOVERhttp_LE_CACHE variable,
     or disable caching by setting this variable to "-". You can optionally
-    provide a certificate notification email by setting ssh2http_LE_EMAIL.
+    provide a certificate notification email by setting sshOVERhttp_LE_EMAIL.
 
     --tls-ca, a path to a PEM encoded CA certificate bundle or a directory
     holding multiple PEM encode CA certificate bundle files, which is used to 
@@ -210,7 +210,7 @@ func server(args []string) {
 		*port = "8080"
 	}
 	if config.KeySeed == "" {
-		config.KeySeed = os.Getenv("ssh2http_KEY")
+		config.KeySeed = os.Getenv("sshOVERhttp_KEY")
 	}
 	s, err := chserver.NewServer(config)
 	if err != nil {
@@ -270,9 +270,9 @@ func (flag *headerFlags) Set(arg string) error {
 }
 
 var clientHelp = `
-  Usage: ssh2http client [options] <server> <remote> [remote] [remote] ...
+  Usage: sshOVERhttp client [options] <server> <remote> [remote] [remote] ...
 
-  <server> is the URL to the ssh2http server.
+  <server> is the URL to the sshOVERhttp server.
 
   <remote>s are remote connections tunneled through the server, each of
   which come in the form:
@@ -307,13 +307,13 @@ var clientHelp = `
       stdio:example.com:22
       1.1.1.1:53/udp
 
-    When the ssh2http server has --socks5 enabled, remotes can
+    When the sshOVERhttp server has --socks5 enabled, remotes can
     specify "socks" in place of remote-host and remote-port.
     The default local host and port for a "socks" remote is
     127.0.0.1:1080. Connections to this remote will terminate
     at the server's internal SOCKS5 proxy.
 
-    When the ssh2http server has --reverse enabled, remotes can
+    When the sshOVERhttp server has --reverse enabled, remotes can
     be prefixed with R to denote that they are reversed. That
     is, the server will listen and accept connections, and they
     will be proxied through the client which specified the remote.
@@ -324,7 +324,7 @@ var clientHelp = `
     When stdio is used as local-host, the tunnel will connect standard
     input/output of this program with the remote. This is useful when 
     combined with ssh ProxyCommand. You can use
-      ssh -o ProxyCommand='ssh2http client ssh2httpserver stdio:%h:%p' \
+      ssh -o ProxyCommand='sshOVERhttp client sshOVERhttpserver stdio:%h:%p' \
           user@example.com
     to connect to an SSH server through the tunnel.
 
@@ -355,7 +355,7 @@ var clientHelp = `
     disconnection. Defaults to 5 minutes.
 
     --proxy, An optional HTTP CONNECT or SOCKS5 proxy which will be
-    used to reach the ssh2http server. Authentication can be specified
+    used to reach the sshOVERhttp server. Authentication can be specified
     inside the URL.
     For example, http://admin:password@my-server.com:8081
             or: socks://admin:password@my-server.com:1080
@@ -366,18 +366,15 @@ var clientHelp = `
     --hostname, Optionally set the 'Host' header (defaults to the host
     found in the server url).
 
-    --sni, Override the ServerName when using TLS (defaults to the 
-    hostname).
-
     --tls-ca, An optional root certificate bundle used to verify the
-    ssh2http server. Only valid when connecting to the server with
+    sshOVERhttp server. Only valid when connecting to the server with
     "https" or "wss". By default, the operating system CAs will be used.
 
     --tls-skip-verify, Skip server TLS certificate verification of
     chain and host name (if TLS is used for transport connections to
     server). If set, client accepts any TLS certificate presented by
     the server and any host name in that certificate. This only affects
-    transport https (wss) connection. ssh2http server's public key
+    transport https (wss) connection. sshOVERhttp server's public key
     may be still verified (see --fingerprint) after inner connection
     is established.
 
@@ -404,7 +401,6 @@ func client(args []string) {
 	flags.StringVar(&config.TLS.Key, "tls-key", "", "")
 	flags.Var(&headerFlags{config.Headers}, "header", "")
 	hostname := flags.String("hostname", "", "")
-	sni := flags.String("sni", "", "")
 	pid := flags.Bool("pid", false, "")
 	verbose := flags.Bool("v", false, "")
 	flags.Usage = func() {
@@ -412,24 +408,22 @@ func client(args []string) {
 		os.Exit(0)
 	}
 	flags.Parse(args)
+	//pull out options, put back remaining args
 	args = flags.Args()
 	if len(args) < 2 {
 		log.Fatalf("A server and least one remote is required")
 	}
 	config.Server = args[0]
 	config.Remotes = args[1:]
+	//default auth
 	if config.Auth == "" {
 		config.Auth = os.Getenv("AUTH")
 	}
+	//move hostname onto headers
 	if *hostname != "" {
 		config.Headers.Set("Host", *hostname)
-		config.TLS.ServerName = *hostname
 	}
-
-	if *sni != "" {
-		config.TLS.ServerName = *sni
-	}
-
+	//ready
 	c, err := chclient.NewClient(&config)
 	if err != nil {
 		log.Fatal(err)

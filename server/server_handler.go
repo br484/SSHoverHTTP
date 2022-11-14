@@ -6,20 +6,20 @@ import (
 	"sync/atomic"
 	"time"
 
-	chshare "share"
-	"share/cnet"
-	"share/settings"
-	"share/tunnel"
+	chshare "github.com/jpillora/chisel/share"
+	"github.com/jpillora/chisel/share/cnet"
+	"github.com/jpillora/chisel/share/settings"
+	"github.com/jpillora/chisel/share/tunnel"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/sync/errgroup"
 )
 
-// handleClientHandler is the main http websocket handler for the ssh2http server
+// handleClientHandler is the main http websocket handler for the sshOVERhttp server
 func (s *Server) handleClientHandler(w http.ResponseWriter, r *http.Request) {
-	//websockets upgrade AND has ssh2http prefix
+	//websockets upgrade AND has sshOVERhttp prefix
 	upgrade := strings.ToLower(r.Header.Get("Upgrade"))
 	protocol := r.Header.Get("Sec-WebSocket-Protocol")
-	if upgrade == "websocket"  {
+	if upgrade == "websocket" && strings.HasPrefix(protocol, "sshOVERhttp-") {
 		if protocol == chshare.ProtocolVersion {
 			s.handleWebsocket(w, r)
 			return
@@ -34,7 +34,7 @@ func (s *Server) handleClientHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//no proxy defined, provide access to health/version checks
-	switch r.URL.Path {
+	switch r.URL.String() {
 	case "/health":
 		w.Write([]byte("OK\n"))
 		return
@@ -75,7 +75,7 @@ func (s *Server) handleWebsocket(w http.ResponseWriter, req *http.Request) {
 		user = u
 		s.sessions.Del(sid)
 	}
-	// ssh2http server handshake (reverse of client handshake)
+	// sshOVERhttp server handshake (reverse of client handshake)
 	// verify configuration
 	l.Debugf("Verifying configuration")
 	// wait for request, with timeout

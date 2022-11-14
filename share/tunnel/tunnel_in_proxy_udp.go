@@ -11,8 +11,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"share/cio"
-	"share/settings"
+	"github.com/jpillora/chisel/share/cio"
+	"github.com/jpillora/chisel/share/settings"
 	"github.com/jpillora/sizestr"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/sync/errgroup"
@@ -45,9 +45,7 @@ func listenUDP(l *cio.Logger, sshTun sshTunnel, remote *settings.Remote) (*udpLi
 		sshTun:  sshTun,
 		remote:  remote,
 		inbound: conn,
-		maxMTU:  settings.EnvInt("UDP_MAX_SIZE", 9012),
 	}
-	u.Debugf("UDP max size: %d bytes", u.maxMTU)
 	return u, nil
 }
 
@@ -59,7 +57,6 @@ type udpListener struct {
 	outboundMut sync.Mutex
 	outbound    *udpChannel
 	sent, recv  int64
-	maxMTU      int
 }
 
 func (u *udpListener) run(ctx context.Context) error {
@@ -83,7 +80,8 @@ func (u *udpListener) run(ctx context.Context) error {
 }
 
 func (u *udpListener) runInbound(ctx context.Context) error {
-	buff := make([]byte, u.maxMTU)
+	const maxMTU = 9012
+	buff := make([]byte, maxMTU)
 	for !isDone(ctx) {
 		//read from inbound udp
 		u.inbound.SetReadDeadline(time.Now().Add(time.Second))
@@ -164,7 +162,7 @@ func (u *udpListener) getUDPChan(ctx context.Context) (*udpChannel, error) {
 	//ssh request for udp packets for this proxy's remote,
 	//just "udp" since the remote address is sent with each packet
 	dstAddr := u.remote.Remote() + "/udp"
-	rwc, reqs, err := sshConn.OpenChannel("ssh2http", []byte(dstAddr))
+	rwc, reqs, err := sshConn.OpenChannel("sshOVERhttp", []byte(dstAddr))
 	if err != nil {
 		return nil, fmt.Errorf("ssh-chan error: %s", err)
 	}

@@ -17,12 +17,12 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	chshare "share"
-	"share/ccrypto"
-	"share/cio"
-	"share/cnet"
-	"share/settings"
-	"share/tunnel"
+	chshare "github.com/jpillora/chisel/share"
+	"github.com/jpillora/chisel/share/ccrypto"
+	"github.com/jpillora/chisel/share/cio"
+	"github.com/jpillora/chisel/share/cnet"
+	"github.com/jpillora/chisel/share/settings"
+	"github.com/jpillora/chisel/share/tunnel"
 
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/net/proxy"
@@ -42,7 +42,6 @@ type Config struct {
 	Headers          http.Header
 	TLS              TLSConfig
 	DialContext      func(ctx context.Context, network, addr string) (net.Conn, error)
-	Verbose          bool
 }
 
 //TLSConfig for a Client
@@ -51,7 +50,6 @@ type TLSConfig struct {
 	CA         string
 	Cert       string
 	Key        string
-	ServerName string
 }
 
 //Client represents a client instance
@@ -105,13 +103,10 @@ func NewClient(c *Config) (*Client, error) {
 		tlsConfig: nil,
 	}
 	//set default log level
-	client.Logger.Info = c.Verbose
+	client.Logger.Info = true
 	//configure tls
 	if u.Scheme == "wss" {
 		tc := &tls.Config{}
-		if c.TLS.ServerName != "" {
-			tc.ServerName = c.TLS.ServerName
-		}
 		//certificate verification config
 		if c.TLS.SkipVerify {
 			client.Infof("TLS verification disabled")
@@ -247,7 +242,7 @@ func (c *Client) Start(ctx context.Context) error {
 		via = " via " + c.proxyURL.String()
 	}
 	c.Infof("Connecting to %s%s\n", c.server, via)
-	//connect to ssh2http server
+	//connect to sshOVERhttp server
 	eg.Go(func() error {
 		return c.connectionLoop(ctx)
 	})

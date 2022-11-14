@@ -11,9 +11,9 @@ import (
 	"time"
 
 	"github.com/armon/go-socks5"
-	"share/cio"
-	"share/cnet"
-	"share/settings"
+	"github.com/jpillora/chisel/share/cio"
+	"github.com/jpillora/chisel/share/cnet"
+	"github.com/jpillora/chisel/share/settings"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/sync/errgroup"
 )
@@ -28,9 +28,9 @@ type Config struct {
 }
 
 //Tunnel represents an SSH tunnel with proxy capabilities.
-//Both ssh2http client and server are Tunnels.
-//ssh2http client has a single set of remotes, whereas
-//ssh2http server has multiple sets of remotes (one set per client).
+//Both sshOVERhttp client and server are Tunnels.
+//sshOVERhttp client has a single set of remotes, whereas
+//sshOVERhttp server has multiple sets of remotes (one set per client).
 //Each remote has a 1:1 mapping to a proxy.
 //Proxies listen, send data over ssh, and the other end of the ssh connection
 //communicates with the endpoint and returns the response.

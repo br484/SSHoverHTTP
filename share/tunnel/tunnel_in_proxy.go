@@ -4,10 +4,9 @@ import (
 	"context"
 	"io"
 	"net"
-	"sync"
 
-	"share/cio"
-	"share/settings"
+	"github.com/jpillora/chisel/share/cio"
+	"github.com/jpillora/chisel/share/settings"
 	"github.com/jpillora/sizestr"
 	"golang.org/x/crypto/ssh"
 )
@@ -27,7 +26,6 @@ type Proxy struct {
 	dialer net.Dialer
 	tcp    *net.TCPListener
 	udp    *udpListener
-	mu     sync.Mutex
 }
 
 //NewProxy creates a Proxy
@@ -124,12 +122,8 @@ func (p *Proxy) runTCP(ctx context.Context) error {
 
 func (p *Proxy) pipeRemote(ctx context.Context, src io.ReadWriteCloser) {
 	defer src.Close()
-
-	p.mu.Lock()
 	p.count++
 	cid := p.count
-	p.mu.Unlock()
-
 	l := p.Fork("conn#%d", cid)
 	l.Debugf("Open")
 	sshConn := p.sshTun.getSSH(ctx)
@@ -138,7 +132,7 @@ func (p *Proxy) pipeRemote(ctx context.Context, src io.ReadWriteCloser) {
 		return
 	}
 	//ssh request for tcp connection for this proxy's remote
-	dst, reqs, err := sshConn.OpenChannel("ssh2http", []byte(p.remote.Remote()))
+	dst, reqs, err := sshConn.OpenChannel("sshOVERhttp", []byte(p.remote.Remote()))
 	if err != nil {
 		l.Infof("Stream error: %s", err)
 		return

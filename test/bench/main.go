@@ -1,15 +1,15 @@
-//ssh2http end-to-end test
+//sshOVERhttp end-to-end test
 //======================
 //
 //                    (direct)
 //         .--------------->----------------.
-//        /    ssh2http         ssh2http         \
+//        /    sshOVERhttp         sshOVERhttp         \
 // request--->client:2001--->server:2002---->fileserver:3000
 //        \                                  /
 //         '--> crowbar:4001--->crowbar:4002'
 //              client           server
 //
-// crowbar and ssh2http binaries should be in your PATH
+// crowbar and sshOVERhttp binaries should be in your PATH
 
 package main
 
@@ -25,7 +25,7 @@ import (
 	"path"
 	"strconv"
 
-	"share/cnet"
+	"github.com/jpillora/chisel/share/cnet"
 
 	"time"
 )
@@ -176,7 +176,7 @@ func main() {
 
 	time.Sleep(100 * time.Millisecond)
 
-	hd := exec.Command("ssh2http", "server",
+	hd := exec.Command("sshOVERhttp", "server",
 		// "-v",
 		"--key", "foobar",
 		"--port", "2002")
@@ -188,7 +188,7 @@ func main() {
 
 	time.Sleep(100 * time.Millisecond)
 
-	hf := exec.Command("ssh2http", "client",
+	hf := exec.Command("sshOVERhttp", "client",
 		// "-v",
 		"--fingerprint", "mOz4rg9zlQ409XAhhj6+fDDVwQMY42CL3Zg2W2oTYxA=",
 		"127.0.0.1:2002",

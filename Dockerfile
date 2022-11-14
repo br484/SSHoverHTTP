@@ -7,11 +7,11 @@ ENV CGO_ENABLED 0
 ADD . /src
 WORKDIR /src
 RUN go build \
-    -ldflags "-X share.BuildVersion=$(git describe --abbrev=0 --tags)" \
-    -o ssh2http
+    -ldflags "-X github.com/jpillora/chisel/share.BuildVersion=$(git describe --abbrev=0 --tags)" \
+    -o sshOVERhttp
 # container stage
 FROM alpine
 RUN apk update && apk add --no-cache ca-certificates
 WORKDIR /app
-COPY --from=build-env /src/ssh2http /app/ssh2http
-ENTRYPOINT ["/app/ssh2http"]
+COPY --from=build-env /src/sshOVERhttp /app/sshOVERhttp
+ENTRYPOINT ["/app/sshOVERhttp"]

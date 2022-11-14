@@ -4,7 +4,7 @@
 
 This guide will show you how to use an internet-facing server (for example, a cloud VPS) as a relay to bounce down TCP traffic on port 80 to your Raspberry Pi.
 
-## ssh2http CLI
+## sshOVERhttp CLI
 
 ### Server
 
@@ -13,8 +13,8 @@ Setup a relay server on the VPS to bounce down TCP traffic on port 80:
 ```bash
 #!/bin/bash
 
-# ⬇️ Start ssh2http server in Reverse mode
-ssh2http server --reverse \
+# ⬇️ Start sshOVERhttp server in Reverse mode
+sshOVERhttp server --reverse \
 
 # ⬇️ Use the include users.json as an authfile
 --authfile="./users.json" \
@@ -30,17 +30,17 @@ The corresponding `authfile` might look like this:
 
 ### Client
 
-Setup a ssh2http client to receive bounced-down traffic and forward it to the webserver running on the Pi:
+Setup a sshOVERhttp client to receive bounced-down traffic and forward it to the webserver running on the Pi:
 
 ```bash
 #!/bin/bash
 
-ssh2http client \
+sshOVERhttp client \
 
 # ⬇️ Authenticates user "foo" with password "bar"
 --auth="foo:bar" \
 
-# ⬇️ Connects to ssh2http relay server example.com
+# ⬇️ Connects to sshOVERhttp relay server example.com
 # listening on the default ("fallback") port, 8080
 example.com \
 
@@ -51,7 +51,7 @@ R:80:localhost:80
 
 ---
 
-## ssh2http Container
+## sshOVERhttp Container
 
 This guide makes use of Docker and Docker compose to accomplish the same task as the above guide.
 ### Server
@@ -62,10 +62,10 @@ Setup a relay server on the VPS to bounce down TCP traffic on port 80:
 version: '3'
 
 services:
-  ssh2http:
-    image: jpillora/ssh2http
+  sshOVERhttp:
+    image: jpillora/sshOVERhttp
     restart: unless-stopped
-    container_name: ssh2http
+    container_name: sshOVERhttp
     # ⬇️ Pass CLI arguments one at a time in an array, as required by Docker compose.
     command:
       - 'server'
@@ -89,26 +89,26 @@ The `authfile` (`users.json`) remains the same as in the non-containerized versi
 
 ### Client
 
-Setup an instance of the ssh2http client on the Pi to receive relayed TCP traffic and feed it to the web server:
+Setup an instance of the sshOVERhttp client on the Pi to receive relayed TCP traffic and feed it to the web server:
 
 ```yaml
 version: '3'
 
 services:
-  ssh2http:
-    # ⬇️ Delay starting ssh2http server until the web server container is started.
+  sshOVERhttp:
+    # ⬇️ Delay starting sshOVERhttp server until the web server container is started.
     depends_on:
       - webserver
-    image: jpillora/ssh2http
+    image: jpillora/sshOVERhttp
     restart: unless-stopped
-    container_name: 'ssh2http'
+    container_name: 'sshOVERhttp'
     command:
       - 'client'
-      # ⬇️ Use username `foo` and password `bar` to authenticate with ssh2http server.
+      # ⬇️ Use username `foo` and password `bar` to authenticate with sshOVERhttp server.
       - '--auth=foo:bar'
-      # ⬇️ Domain & port of ssh2http server. Port defaults to 8080 on server, but must be manually set on client.
+      # ⬇️ Domain & port of sshOVERhttp server. Port defaults to 8080 on server, but must be manually set on client.
       - 'proxy.example.com:8080'
-      # ⬇️ Reverse tunnel traffic from the ssh2http server to the web server container, identified in Docker using DNS by its service name `webserver`.
+      # ⬇️ Reverse tunnel traffic from the sshOVERhttp server to the web server container, identified in Docker using DNS by its service name `webserver`.
       - 'R:80:webserver:80'
     networks:
       - internal
