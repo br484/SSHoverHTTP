@@ -3,8 +3,8 @@ package e2e_test
 import (
 	"testing"
 
-	chclient "github.com/jpillora/chisel/client"
-	chserver "github.com/jpillora/chisel/server"
+	chclient "github.com/br484/SSHoverHTTP/client"
+	chserver "github.com/br484/SSHoverHTTP/server"
 )
 
 func TestBase(t *testing.T) {

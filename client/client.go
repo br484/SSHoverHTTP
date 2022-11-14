@@ -17,12 +17,12 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	chshare "github.com/jpillora/chisel/share"
-	"github.com/jpillora/chisel/share/ccrypto"
-	"github.com/jpillora/chisel/share/cio"
-	"github.com/jpillora/chisel/share/cnet"
-	"github.com/jpillora/chisel/share/settings"
-	"github.com/jpillora/chisel/share/tunnel"
+	chshare "github.com/br484/SSHoverHTTP/share"
+	"github.com/br484/SSHoverHTTP/share/ccrypto"
+	"github.com/br484/SSHoverHTTP/share/cio"
+	"github.com/br484/SSHoverHTTP/share/cnet"
+	"github.com/br484/SSHoverHTTP/share/settings"
+	"github.com/br484/SSHoverHTTP/share/tunnel"
 
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/net/proxy"

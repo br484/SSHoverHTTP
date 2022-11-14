@@ -10,10 +10,10 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/jpillora/backoff"
-	chshare "github.com/jpillora/chisel/share"
-	"github.com/jpillora/chisel/share/cnet"
-	"github.com/jpillora/chisel/share/cos"
-	"github.com/jpillora/chisel/share/settings"
+	chshare "github.com/br484/SSHoverHTTP/share"
+	"github.com/br484/SSHoverHTTP/share/cnet"
+	"github.com/br484/SSHoverHTTP/share/cos"
+	"github.com/br484/SSHoverHTTP/share/settings"
 	"golang.org/x/crypto/ssh"
 )
 

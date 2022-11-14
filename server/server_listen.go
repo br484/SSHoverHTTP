@@ -10,7 +10,7 @@ import (
 	"os/user"
 	"path/filepath"
 
-	"github.com/jpillora/chisel/share/settings"
+	"github.com/br484/SSHoverHTTP/share/settings"
 	"golang.org/x/crypto/acme/autocert"
 )
 
