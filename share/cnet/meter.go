@@ -6,7 +6,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/br484/SSHoverHTTP/share/cio"
+	"share/cio"
 	"github.com/jpillora/sizestr"
 )
 

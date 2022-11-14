@@ -11,9 +11,9 @@ import (
 	"time"
 
 	"github.com/armon/go-socks5"
-	"github.com/br484/SSHoverHTTP/share/cio"
-	"github.com/br484/SSHoverHTTP/share/cnet"
-	"github.com/br484/SSHoverHTTP/share/settings"
+	"share/cio"
+	"share/cnet"
+	"share/settings"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/sync/errgroup"
 )

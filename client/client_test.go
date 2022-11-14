@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/br484/SSHoverHTTP/share/ccrypto"
+	"share/ccrypto"
 	"golang.org/x/crypto/ssh"
 )
 

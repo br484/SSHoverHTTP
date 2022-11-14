@@ -3,12 +3,12 @@ package chshare
 //this file exists to maintain backwards compatibility
 
 import (
-	"github.com/br484/SSHoverHTTP/share/ccrypto"
-	"github.com/br484/SSHoverHTTP/share/cio"
-	"github.com/br484/SSHoverHTTP/share/cnet"
-	"github.com/br484/SSHoverHTTP/share/cos"
-	"github.com/br484/SSHoverHTTP/share/settings"
-	"github.com/br484/SSHoverHTTP/share/tunnel"
+	"share/ccrypto"
+	"share/cio"
+	"share/cnet"
+	"share/cos"
+	"share/settings"
+	"share/tunnel"
 )
 
 const (

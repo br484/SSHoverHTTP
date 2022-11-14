@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	chclient "github.com/br484/SSHoverHTTP/client"
-	chserver "github.com/br484/SSHoverHTTP/server"
+	chclient "client"
+	chserver "server"
 	"golang.org/x/sync/errgroup"
 )
 

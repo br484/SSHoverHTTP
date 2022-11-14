@@ -12,10 +12,10 @@ import (
 	"strings"
 	"time"
 
-	chclient "github.com/br484/SSHoverHTTP/client"
-	chserver "github.com/br484/SSHoverHTTP/server"
-	chshare "github.com/br484/SSHoverHTTP/share"
-	"github.com/br484/SSHoverHTTP/share/cos"
+	chclient "client"
+	chserver "server"
+	chshare "share"
+	"share/cos"
 )
 
 var help = `

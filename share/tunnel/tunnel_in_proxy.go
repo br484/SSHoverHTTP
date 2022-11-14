@@ -6,8 +6,8 @@ import (
 	"net"
 	"sync"
 
-	"github.com/br484/SSHoverHTTP/share/cio"
-	"github.com/br484/SSHoverHTTP/share/settings"
+	"share/cio"
+	"share/settings"
 	"github.com/jpillora/sizestr"
 	"golang.org/x/crypto/ssh"
 )

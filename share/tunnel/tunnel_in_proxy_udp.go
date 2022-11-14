@@ -11,8 +11,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/br484/SSHoverHTTP/share/cio"
-	"github.com/br484/SSHoverHTTP/share/settings"
+	"share/cio"
+	"share/settings"
 	"github.com/jpillora/sizestr"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/sync/errgroup"

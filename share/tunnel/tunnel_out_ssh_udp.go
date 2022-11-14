@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/br484/SSHoverHTTP/share/cio"
-	"github.com/br484/SSHoverHTTP/share/settings"
+	"share/cio"
+	"share/settings"
 )
 
 func (t *Tunnel) handleUDP(l *cio.Logger, rwc io.ReadWriteCloser, hostPort string) error {

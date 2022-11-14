@@ -7,7 +7,7 @@ ENV CGO_ENABLED 0
 ADD . /src
 WORKDIR /src
 RUN go build \
-    -ldflags "-X github.com/br484/SSHoverHTTP/share.BuildVersion=$(git describe --abbrev=0 --tags)" \
+    -ldflags "-X share.BuildVersion=$(git describe --abbrev=0 --tags)" \
     -o ssh2http
 # container stage
 FROM alpine

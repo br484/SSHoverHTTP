@@ -3,7 +3,7 @@ BUILD=$(shell git rev-parse HEAD)
 DIRBASE=./build
 DIR=${DIRBASE}/${VERSION}/${BUILD}/bin
 
-LDFLAGS=-ldflags "-s -w ${XBUILD} -buildid=${BUILD} -X github.com/br484/SSHoverHTTP/share.BuildVersion=${VERSION}"
+LDFLAGS=-ldflags "-s -w ${XBUILD} -buildid=${BUILD} -X share.BuildVersion=${VERSION}"
 
 GOFILES=`go list ./...`
 GOFILESNOTEST=`go list ./... | grep -v test`

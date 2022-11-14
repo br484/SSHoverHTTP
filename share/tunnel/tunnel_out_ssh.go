@@ -6,9 +6,9 @@ import (
 	"net"
 	"strings"
 
-	"github.com/br484/SSHoverHTTP/share/cio"
-	"github.com/br484/SSHoverHTTP/share/cnet"
-	"github.com/br484/SSHoverHTTP/share/settings"
+	"share/cio"
+	"share/cnet"
+	"share/settings"
 	"github.com/jpillora/sizestr"
 	"golang.org/x/crypto/ssh"
 )

@@ -3,8 +3,8 @@ package e2e_test
 import (
 	"testing"
 
-	chclient "github.com/br484/SSHoverHTTP/client"
-	chserver "github.com/br484/SSHoverHTTP/server"
+	chclient "client"
+	chserver "server"
 )
 
 func TestTLS(t *testing.T) {

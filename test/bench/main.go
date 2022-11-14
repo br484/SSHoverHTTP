@@ -25,7 +25,7 @@ import (
 	"path"
 	"strconv"
 
-	"github.com/br484/SSHoverHTTP/share/cnet"
+	"share/cnet"
 
 	"time"
 )

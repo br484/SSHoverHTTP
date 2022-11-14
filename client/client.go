@@ -17,12 +17,12 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	chshare "github.com/br484/SSHoverHTTP/share"
-	"github.com/br484/SSHoverHTTP/share/ccrypto"
-	"github.com/br484/SSHoverHTTP/share/cio"
-	"github.com/br484/SSHoverHTTP/share/cnet"
-	"github.com/br484/SSHoverHTTP/share/settings"
-	"github.com/br484/SSHoverHTTP/share/tunnel"
+	chshare "share"
+	"share/ccrypto"
+	"share/cio"
+	"share/cnet"
+	"share/settings"
+	"share/tunnel"
 
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/net/proxy"

@@ -9,7 +9,7 @@ import (
 	"sync"
 
 	"github.com/fsnotify/fsnotify"
-	"github.com/br484/SSHoverHTTP/share/cio"
+	"share/cio"
 )
 
 type Users struct {
