@@ -1,4 +1,4 @@
-//sshOVERhttp end-to-end test
+//chisel end-to-end test
 //======================
 //
 //                    (direct)

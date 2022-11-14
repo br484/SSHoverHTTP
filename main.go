@@ -28,7 +28,7 @@ var help = `
     client - runs sshOVERhttp in client mode
 
   Read more:
-    https://github.com/jpillora/sshOVERhttp
+    https://github.com/jpillora/chisel
 
 `
 
@@ -81,7 +81,7 @@ var commonHelp = `
     ` + chshare.BuildVersion + ` (` + runtime.Version() + `)
 
   Read more:
-    https://github.com/jpillora/sshOVERhttp
+    https://github.com/jpillora/chisel
 
 `
 
@@ -153,7 +153,7 @@ var serverHelp = `
     --tls-domain, Enables TLS and automatically acquires a TLS key and
     certificate using LetsEncypt. Setting --tls-domain requires port 443.
     You may specify multiple --tls-domain flags to serve multiple domains.
-    The resulting files are cached in the "$HOME/.cache/sshOVERhttp" directory.
+    The resulting files are cached in the "$HOME/.cache/chisel" directory.
     You can modify this path by setting the sshOVERhttp_LE_CACHE variable,
     or disable caching by setting this variable to "-". You can optionally
     provide a certificate notification email by setting sshOVERhttp_LE_EMAIL.

@@ -63,7 +63,7 @@ version: '3'
 
 services:
   sshOVERhttp:
-    image: jpillora/sshOVERhttp
+    image: jpillora/chisel
     restart: unless-stopped
     container_name: sshOVERhttp
     # ⬇️ Pass CLI arguments one at a time in an array, as required by Docker compose.
@@ -99,7 +99,7 @@ services:
     # ⬇️ Delay starting sshOVERhttp server until the web server container is started.
     depends_on:
       - webserver
-    image: jpillora/sshOVERhttp
+    image: jpillora/chisel
     restart: unless-stopped
     container_name: 'sshOVERhttp'
     command:

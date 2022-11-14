@@ -29,8 +29,8 @@ type Config struct {
 
 //Tunnel represents an SSH tunnel with proxy capabilities.
 //Both sshOVERhttp client and server are Tunnels.
-//sshOVERhttp client has a single set of remotes, whereas
-//sshOVERhttp server has multiple sets of remotes (one set per client).
+//chisel client has a single set of remotes, whereas
+//chisel server has multiple sets of remotes (one set per client).
 //Each remote has a 1:1 mapping to a proxy.
 //Proxies listen, send data over ssh, and the other end of the ssh connection
 //communicates with the endpoint and returns the response.

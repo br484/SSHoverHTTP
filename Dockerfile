@@ -13,5 +13,5 @@ RUN go build \
 FROM alpine
 RUN apk update && apk add --no-cache ca-certificates
 WORKDIR /app
-COPY --from=build-env /src/sshOVERhttp /app/sshOVERhttp
-ENTRYPOINT ["/app/sshOVERhttp"]
+COPY --from=build-env /src/chisel /app/chisel
+ENTRYPOINT ["/app/chisel"]

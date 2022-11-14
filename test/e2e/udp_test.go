@@ -19,7 +19,7 @@ func TestUDP(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	//sshOVERhttp client+server
+	//chisel client+server
 	inboundPort := availableUDPPort()
 	teardown := simpleSetup(t,
 		&chserver.Config{},
