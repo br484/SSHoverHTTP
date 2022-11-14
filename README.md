@@ -2,7 +2,7 @@
 
 Test to obfuscate https://github.com/jpillora/chisel
 
-# Ofuscar 
+# obfuscate 
 
       go install mvdan.cc/garble@latest
 
